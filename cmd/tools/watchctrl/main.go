@@ -22,6 +22,7 @@ type config struct {
 	rootDir        string
 	watchRelDirs   []string
 	ignoreSuffixes []string
+	onlyV1         bool
 	debounce       time.Duration
 }
 
@@ -101,6 +102,7 @@ func newConfig() (*config, error) {
 	return &config{
 		rootDir:      root,
 		watchRelDirs: []string{"api"},
+		onlyV1:       true,
 		ignoreSuffixes: []string{
 			".tmp", ".swp", ".swo", ".bak", ".old",
 			"~",
@@ -161,6 +163,9 @@ func isHiddenDir(path string) bool {
 
 func shouldIgnoreEvent(cfg *config, evt fsnotify.Event) bool {
 	name := evt.Name
+	if evt.Op&(fsnotify.Write|fsnotify.Create|fsnotify.Remove|fsnotify.Rename) == 0 {
+		return true
+	}
 	for _, suf := range cfg.ignoreSuffixes {
 		if strings.HasSuffix(name, suf) {
 			return true
@@ -171,6 +176,13 @@ func shouldIgnoreEvent(cfg *config, evt fsnotify.Event) bool {
 		return true
 	}
 	if strings.Contains(strings.ToLower(name), string(filepath.Separator)+".git"+string(filepath.Separator)) {
+		return true
+	}
+	if cfg.onlyV1 && !strings.Contains(name, string(filepath.Separator)+"v1"+string(filepath.Separator)) {
+		// 只对 api/**/v1/**.go 触发，避免 gf gen ctrl 重写 api/**/xxx.go 造成自触发循环。
+		return true
+	}
+	if !strings.HasSuffix(strings.ToLower(name), ".go") {
 		return true
 	}
 	return false

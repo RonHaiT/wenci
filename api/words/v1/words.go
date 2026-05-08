@@ -73,3 +73,10 @@ type DetailRes struct {
 	CreatedAt          *gtime.Time      `json:"createdAt" dc:"创建时间"`
 	UpdatedAt          *gtime.Time      `json:"updatedAt" dc:"更新时间"`
 }
+type DeleteReq struct {
+	g.Meta `path:"words/{id}" method:"delete" sm:"删除" tags:"单词"`
+	Id     uint `json:"id" v:"required"`
+}
+
+type DeleteRes struct {
+}
