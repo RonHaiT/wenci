@@ -6,7 +6,7 @@ import (
 )
 
 type InfoReq struct {
-	g.Meta `path:"account/info" method:"get" sm:"获取账户信息" tags:"用户"`
+	g.Meta `path:"account/info" method:"get" sm:"获取账户信息" tags:"用户" security:"AuthToken"`
 }
 type InfoRes struct {
 	Username  string      `json:"username" dc:"用户名"`

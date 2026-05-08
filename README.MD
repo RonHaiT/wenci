@@ -89,7 +89,8 @@ gf run main.go
 ### 账户信息（需要鉴权）
 
 - 路径：`GET /v1/account/info`
-- Header：`Authorization: <登录返回的 token 整串>`（与中间件 `internal/logic/middleware/auth.go` 一致，值为 JWT 字符串本身，无需 `Bearer ` 前缀）
+- Header（推荐）：`Authorization: Bearer <登录返回的 token>`
+- Header（兼容旧调用）：`Authorization: <登录返回的 token>`（未来可以按需下线）
 
 ## 参考
 
