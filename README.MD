@@ -107,7 +107,7 @@ gf run main.go
 
 ## 开发：自动生成 controller
 
-当你修改 `api/` 下的接口定义后，可以启动监听器自动执行 `gf gen ctrl`（带防抖，避免频繁触发）。
+当你修改 `api/**/v1/*.go` 下的接口定义后，可以启动监听器自动执行 `gf gen ctrl`（带防抖，避免频繁触发）。
 
 PowerShell（在项目根目录执行）：
 

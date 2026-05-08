@@ -3,12 +3,15 @@ package words
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gcode"
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"wenci/api/words/v1"
+	v1 "wenci/api/words/v1"
 )
 
 func (c *ControllerV1) Delete(ctx context.Context, req *v1.DeleteReq) (res *v1.DeleteRes, err error) {
-	return nil, gerror.NewCode(gcode.CodeNotImplemented)
+	uid, err := c.users.GetUid(ctx)
+	if err != nil {
+		return nil, err
+	}
+	err = c.words.Delete(ctx, uid, req.Id)
+
+	return
 }
