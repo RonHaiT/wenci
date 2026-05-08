@@ -59,6 +59,13 @@ gf run main.go
 
 路由前缀均为 **`/v1`**。需要鉴权的接口在 `internal/cmd/cmd.go` 中挂了 `middleware.Auth`。
 
+### Swagger 鉴权（推荐）
+
+访问 `http://127.0.0.1:8000/swagger`，点击右上角 **Authorize**，选择 `AuthToken`：
+
+- 推荐填写：`Bearer <登录返回的 token>`
+- 兼容旧调用：直接填写 `<token>`（未来可以按需下线）
+
 ### 用户注册（无需鉴权）
 
 - 路径：`POST /v1/users/register`
@@ -91,6 +98,22 @@ gf run main.go
 - 路径：`GET /v1/account/info`
 - Header（推荐）：`Authorization: Bearer <登录返回的 token>`
 - Header（兼容旧调用）：`Authorization: <登录返回的 token>`（未来可以按需下线）
+
+### 单词（需要鉴权）
+
+- 创建：`POST /v1/words`
+- 更新：`PUT /v1/words/{id}`
+- Header 同上（推荐 Bearer）
+
+## 开发：自动生成 controller
+
+当你修改 `api/` 下的接口定义后，可以启动监听器自动执行 `gf gen ctrl`（带防抖，避免频繁触发）。
+
+PowerShell（在项目根目录执行）：
+
+```powershell
+go run .\cmd\tools\watchctrl
+```
 
 ## 参考
 
