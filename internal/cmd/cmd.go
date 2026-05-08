@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"context"
+	"wenci/internal/controller/account"
 	"wenci/internal/controller/users"
+	"wenci/internal/logic/middleware"
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
@@ -22,6 +24,12 @@ var (
 					group.Bind(
 						users.NewV1(),
 					)
+					group.Group("/", func(group *ghttp.RouterGroup) {
+						group.Middleware(middleware.Auth)
+						group.Bind(
+							account.NewV1(),
+						)
+					})
 				})
 
 			})
