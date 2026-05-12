@@ -16,5 +16,6 @@ type IWordsV1 interface {
 	List(ctx context.Context, req *v1.ListReq) (res *v1.ListRes, err error)
 	Detail(ctx context.Context, req *v1.DetailReq) (res *v1.DetailRes, err error)
 	Delete(ctx context.Context, req *v1.DeleteReq) (res *v1.DeleteRes, err error)
-	LearnList(ctx context.Context, req *v1.LearnListReq) (res *v1.LearnListRes, err error)
+	RandList(ctx context.Context, req *v1.RandListReq) (res *v1.RandListRes, err error)
+	SetLevel(ctx context.Context, req *v1.SetLevelReq) (res *v1.SetLevelRes, err error)
 }
