@@ -2,6 +2,8 @@
 
 基于 GoFrame v2 的单体仓库模板，已内置本地 MySQL（Docker Compose）、用户注册/登录与账户信息示例接口。
 
+**运行与工程化以 [GoFrame 官方文档](https://goframe.org/docs/cli) 为准**：开发启动使用 `gf run main.go`；代码生成使用 `gf gen ctrl` / `gf gen dao` 等（本仓库 `hack/hack.mk` 中的 `make ctrl`、`make dao` 与之对应）。`cmd/tools/watchctrl` 为可选本地辅助（监听 `api` 后调 `gf gen ctrl`），不属于框架自带流程。
+
 ## 本地依赖
 
 - Go：以你本机 `go.mod` 为准
@@ -107,14 +109,23 @@ gf run main.go
 
 ## 开发：自动生成 controller
 
-当你修改 `api/**/v1/*.go` 下的接口定义后，可以启动监听器自动执行 `gf gen ctrl`（带防抖，避免频繁触发）。
+官方方式：在项目根执行 `gf gen ctrl`，或使用 `make ctrl`（见 `hack/hack.mk`，会先检查 `gf` CLI）。
 
-PowerShell（在项目根目录执行）：
+可选：修改 `api/**/v1/*.go` 后启动监听工具自动执行 `gf gen ctrl`（带防抖）。说明见 `cmd/tools/watchctrl/README.md`。
+
+PowerShell（项目根目录）：
 
 ```powershell
 go run .\cmd\tools\watchctrl
 ```
 
+macOS / Linux：
+
+```bash
+go run ./cmd/tools/watchctrl
+```
+
 ## 参考
 
 - GoFrame Quick Start：`https://goframe.org/quick`
+- GoFrame CLI（`gf run`、`gf gen`、`gf build` 等）：`https://goframe.org/docs/cli`
