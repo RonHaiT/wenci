@@ -7,7 +7,18 @@
 ## 本地依赖
 
 - Go：以你本机 `go.mod` 为准
-- Docker Desktop（用于本地 MySQL）
+- [GoFrame CLI `gf`](https://goframe.org/docs/cli)：`go install github.com/gogf/gf/cmd/gf/v2@latest`，并将 `$(go env GOPATH)/bin` 加入 `PATH`
+- Docker：本地 MySQL（Windows / macOS 常用 Docker Desktop；Linux 可用 Docker Engine + Compose 插件）
+
+## 新环境 / 换机（最小步骤）
+
+仓库不绑定某台机器；换电脑后按顺序即可（**macOS / Linux / Windows 通用**，命令路径按系统习惯写）。
+
+1. `git clone` 后进入项目根目录  
+2. `docker compose up -d` 启动 MySQL（需本机 **3306** 未被占用，或与 `manifest/config/config.yaml` 中 `link` 一致）  
+3. `go mod tidy`（或至少能成功 `go build`）  
+4. 按需设置 `WENCI_JWT_KEY`（见下节）  
+5. `gf run main.go`
 
 ## 启动 MySQL（本地）
 
@@ -40,7 +51,16 @@ $env:WENCI_JWT_KEY = "你的随机长密钥"
 gf run main.go
 ```
 
-持久写入用户环境变量（新开终端生效）：
+macOS / Linux（当前 shell 有效，zsh / bash 等）：
+
+```bash
+export WENCI_JWT_KEY='你的随机长密钥'
+gf run main.go
+```
+
+持久化请用各系统自带方式（如 Windows `setx`、macOS `launchctl`、Linux systemd 用户环境等），勿把密钥写入仓库。
+
+Windows 持久（新开终端生效，示例）：
 
 ```powershell
 setx WENCI_JWT_KEY "你的随机长密钥"
